@@ -157,7 +157,7 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("ManowDeng");
-        GameClient client = new GameClient("127.0.0.1");
+        GameClient client = new GameClient("169.254.210.193");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(client, BorderLayout.CENTER);

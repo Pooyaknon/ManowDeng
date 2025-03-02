@@ -7,7 +7,7 @@ public class GameServer {
     private static List<PrintWriter> clients = new ArrayList<>();
 
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+        try (ServerSocket serverSocket = new ServerSocket(5000, 50, InetAddress.getByName("0.0.0.0"))) {
             System.out.println("Server started...");
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -64,7 +64,7 @@ public class GameServer {
                 leaderboard.append(entry.getKey()).append(": ").append(entry.getValue()).append(";");
             }
         
-            client.println(leaderboard); // ส่งให้เฉพาะ client ที่ร้องขอ
+            client.println(leaderboard);
         }
     }
 }

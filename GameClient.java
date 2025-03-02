@@ -95,9 +95,15 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
                     if (ballX <= 0 || ballX >= 490) ballDX = -ballDX;
                     if (ballY <= 0) ballDY = -ballDY;
 
-                    if (ballY >= 440 && ballX >= paddleX && ballX <= paddleX + paddleWidth) {
+                    if (ballY + 10 >= 440 && ballX + 10 >= paddleX && ballX <= paddleX + paddleWidth) {
                         ballDY = -ballDY;
+                        if (ballX < paddleX + 10) {
+                            ballDX = -Math.abs(ballDX);
+                        } else if (ballX > paddleX + paddleWidth - 10) {
+                            ballDX = Math.abs(ballDX);
+                        }
                     }
+                    
 
                     for (int i = 0; i < blocks.size(); i++) {
                         Rectangle block = blocks.get(i);
@@ -116,6 +122,11 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
                         resetBall();
                     }
                     out.println(ballX + "," + ballY);
+                    
+                    if (blocks.isEmpty()) {
+                        resetBlocks();
+                    }
+                    
                 }
                 repaint();
                 Thread.sleep(10);
@@ -205,4 +216,14 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
             e.printStackTrace();
         }
     }
+
+    private void resetBlocks() {
+        blocks.clear(); 
+        for (int i = 0; i < 7; i++) { 
+            for (int j = 0; j < 5; j++) {
+                blocks.add(new Rectangle(40 + i * 60, 50 + j * 25, 50, 20));
+            }
+        }
+    }
+    
 }

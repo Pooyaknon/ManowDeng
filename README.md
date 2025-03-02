@@ -1,3 +1,3 @@
-This is a Network's game project "ManowDeng"
+This is a Network's game project "ManowDeng"\n
 You can play this in multiplayer bt using same server
 ...Now 50%...

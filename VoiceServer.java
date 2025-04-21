@@ -12,7 +12,7 @@ public class VoiceServer {
             while (true) {
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 serverSocket.receive(packet);
-                serverSocket.send(packet); // ส่งข้อมูลกลับไปให้ทุก client
+                serverSocket.send(packet);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,7 +26,10 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
     private VoiceClient voiceClient;
     private JButton restartButton;
 
-    public GameClient(String serverAddress) {
+    public GameClient(String serverAddress, String voiceServerAddress) {
+        setFocusable(true);
+        requestFocusInWindow();
+
         try {
             socket = new Socket(serverAddress, 5000);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,7 +55,7 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
             }
         }
 
-        voiceClient = new VoiceClient(socket);
+        voiceClient = new VoiceClient(voiceServerAddress);
         new Thread(this).start();
         new Thread(this::listenToServer).start();
     }
@@ -179,8 +182,11 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
     public void keyTyped(KeyEvent e) {}
 
     public static void main(String[] args) {
+        String gameServerIP = args.length > 0 ? args[0] : "169.254.210.193";
+        String voiceServerIP = args.length > 1 ? args[1] : gameServerIP;
+
         JFrame frame = new JFrame("ManowDeng");
-        GameClient client = new GameClient("169.254.210.193");
+        GameClient client = new GameClient(gameServerIP, voiceServerIP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(client, BorderLayout.CENTER);

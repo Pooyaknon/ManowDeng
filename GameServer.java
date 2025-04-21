@@ -8,7 +8,7 @@ public class GameServer {
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(5000, 50, InetAddress.getByName("0.0.0.0"))) {
-            System.out.println("Server started...");
+            System.out.println("Game Server started on port 5000");
             while (true) {
                 Socket socket = serverSocket.accept();
                 new ClientHandler(socket).start();
@@ -42,7 +42,6 @@ public class GameServer {
                         String[] parts = input.split(":");
                         String player = parts[1];
                         int playerScore = Integer.parseInt(parts[2]);
-
                         scores.put(player, playerScore);
                     } else if (input.equals("LEADERBOARD")) {
                         sendLeaderboard(out);
@@ -58,12 +57,12 @@ public class GameServer {
         private static void sendLeaderboard(PrintWriter client) {
             List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(scores.entrySet());
             sortedScores.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
-        
+
             StringBuilder leaderboard = new StringBuilder("LEADERBOARD:");
             for (Map.Entry<String, Integer> entry : sortedScores) {
                 leaderboard.append(entry.getKey()).append(": ").append(entry.getValue()).append(";");
             }
-        
+
             client.println(leaderboard);
         }
     }

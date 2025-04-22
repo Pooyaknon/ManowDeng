@@ -125,12 +125,15 @@ public class GameClient extends JPanel implements KeyListener, Runnable {
                         }
                     }
 
-                    if (ballY >= 500) {
-                        lives--;
-                        gameStarted = false;
-                        out.println("SCORE:" + playerName + ":" + score);
-                        resetBall();
+                    if (ballY >= 460) {
+                        if (!(ballY <= 460 && ballX + 10 >= paddleX && ballX <= paddleX + paddleWidth)) {
+                            lives--;
+                            gameStarted = false;
+                            out.println("SCORE:" + playerName + ":" + score);
+                            resetBall();
+                        }
                     }
+                    
                     out.println(ballX + "," + ballY);
 
                     if (blocks.isEmpty()) {

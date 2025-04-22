@@ -3,7 +3,7 @@ import java.util.*;
 
 public class VoiceServer {
     private static final int PORT = 6000;
-    private static final List<DatagramSocket> clients = new ArrayList<>();
+    private static final List<InetSocketAddress> clients = new ArrayList<>();
 
     public static void main(String[] args) {
         byte[] buffer = new byte[1024];
@@ -16,12 +16,18 @@ public class VoiceServer {
                 InetSocketAddress sender = new InetSocketAddress(packet.getAddress(), packet.getPort());
 
                 if (!clients.contains(sender)) {
-                    clients.add(serverSocket);
+                    clients.add(sender);
+                    System.out.println("New client connected: " + sender);
                 }
 
-                for (DatagramSocket client : clients) {
+                for (InetSocketAddress client : clients) {
                     if (!client.equals(sender)) {
-                        DatagramPacket sendPacket = new DatagramPacket(packet.getData(), packet.getLength(), sender.getAddress(), sender.getPort());
+                        DatagramPacket sendPacket = new DatagramPacket(
+                            packet.getData(),
+                            packet.getLength(),
+                            client.getAddress(),
+                            client.getPort()
+                        );
                         serverSocket.send(sendPacket);
                     }
                 }
